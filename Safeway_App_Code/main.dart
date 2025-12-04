@@ -3,12 +3,10 @@ import 'package:safewayproject/home_page.dart';
 import 'package:safewayproject/notification_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // 🔹 eklendi
+import 'package:shared_preferences/shared_preferences.dart'; 
 
-const supabaseUrl = 'https://dcldssdqnnhgjitylkfk.supabase.co';
-const supabaseAnonKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjbGRzc2Rxbm5oZ2ppdHlsa2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMzc4ODEsImV4cCI6MjA3NzgxMzg4MX0.yJiR-q6gkImcfzBuvp2xykLcuDcvyysn0dfgQnTzhUo';
-
+const supabaseUrl = // for the reason of security, I hide it)
+const supabaseAnonKey = // for the reason of security, I hide it
 // 🔹 Global theme controller (ProfilePage burayı import edecek)
 final ValueNotifier<ThemeMode> themeModeNotifier =
     ValueNotifier<ThemeMode>(ThemeMode.system);
@@ -653,3 +651,4 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
+
