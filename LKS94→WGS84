@@ -1,0 +1,37 @@
+import pandas as pd
+from pyproj import Transformer
+from tqdm import tqdm
+#1. Dosya yolunu doğru şekilde belirt
+file_path = r"C:\Users\mhone\Desktop\dosyaCordinat\2020-2024 accident.xlsx"
+#2. Excel dosyasını oku
+df = pd.read_excel(file_path, sheet_name="2020-2024")
+df.columns = df.columns.str.strip()
+#3. Boş koordinatları çıkar
+df_clean = df.dropna(subset=['Ilguma', 'Platuma']).copy()
+#  4. Koordinatları float yap (virgülü noktaya çevir)
+df_clean['Ilguma'] = df_clean['Ilguma'].astype(str).str.replace(',',
+'.').astype(float)
+df_clean['Platuma'] = df_clean['Platuma'].astype(str).str.replace(',',
+'.').astype(float)
+# 5. Koordinat sistemi (EPSG:3346 → EPSG:4326)
+transformer = Transformer.from_crs("EPSG:3346", "EPSG:4326",
+always_xy=True)
+# topla
+longitudes = []
+latitudes = []
+# Derleme
+for x, y in tqdm(zip(df_clean['Platuma'], df_clean['Ilguma']),
+total=len(df_clean), desc="Koordinatlar dönüştürülüyor"):
+lon, lat = transformer.transform(x, y)
+longitudes.append(lon)
+latitudes.append(lat)
+# ➕ 8. Yeni sütunları dataframe'e ekle
+df_clean['Longitude'] = longitudes
+df_clean['Latitude'] = latitudes
+#9. Yeni dosya olarak kaydet
+output_path =
+r"C:\Users\mhone\Desktop\donusturulmus_kaza_koordinatlari.xlsx"
+df_clean.to_excel(output_path, index=False)
+#10. Bilgilendirme
+print(f"Koordinatlar başarıyla dönüştürüldü ve şu dosyaya
+kaydedildi:\n{output_path}")
